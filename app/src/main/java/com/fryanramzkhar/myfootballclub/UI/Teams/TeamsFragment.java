@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.fryanramzkhar.myfootballclub.Model.TeamsItem;
@@ -26,11 +28,17 @@ import butterknife.Unbinder;
  */
 public class TeamsFragment extends Fragment implements TeamsContract.View {
 
+    //TODO 2 Search di Butterknife
+
     @BindView(R.id.rv_teams)
     RecyclerView rvTeams;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
     Unbinder unbinder;
+    @BindView(R.id.edtSearch)
+    EditText edtSearch;
+    @BindView(R.id.btnSearch)
+    ImageButton btnSearch;
     //TODO Membuat Variable yang dibutuhkan
     private ProgressDialog progressDialog;
     private TeamsPresenter teamsPresenter = new TeamsPresenter(this);
@@ -57,8 +65,23 @@ public class TeamsFragment extends Fragment implements TeamsContract.View {
                 teamsPresenter.getDataListTeams();
             }
         });
+        //TODO 3 Mengatur ketika button search di klik
+        setupUIListener();
 
         return view;
+    }
+
+    private void setupUIListener() {
+        //TODO 5 Mengatur bahan yang diperlukan
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Mengambil Inputan User yang ada di dalam editText
+                String searchText = edtSearch.getText().toString().toLowerCase();
+                // Mengirimkn Inoutan User ke Presenter untuk di Request ke API
+                teamsPresenter.getSearchTeam(searchText);
+            }
+        });
     }
 
     @Override
@@ -78,13 +101,13 @@ public class TeamsFragment extends Fragment implements TeamsContract.View {
     @Override
     public void showDataList(List<TeamsItem> teamsItemList) {
         //Mengatur RecycleView
-       rvTeams.setLayoutManager(new LinearLayoutManager(getContext()));
-       rvTeams.setAdapter(new TeamsAdapter(getContext(),teamsItemList));
+        rvTeams.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvTeams.setAdapter(new TeamsAdapter(getContext(), teamsItemList));
     }
 
     @Override
     public void showFailureMessage(String msg) {
-        Toast.makeText(getContext(),msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
