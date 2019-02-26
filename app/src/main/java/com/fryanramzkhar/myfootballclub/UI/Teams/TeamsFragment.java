@@ -67,7 +67,6 @@ public class TeamsFragment extends Fragment implements TeamsContract.View {
         });
         //TODO 3 Mengatur ketika button search di klik
         setupUIListener();
-
         return view;
     }
 

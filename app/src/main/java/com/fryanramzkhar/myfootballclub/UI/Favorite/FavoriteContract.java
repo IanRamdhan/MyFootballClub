@@ -16,5 +16,8 @@ public interface FavoriteContract {
 
     interface Presenter{
         void getDataListTeams(Context context);
+
+        //TODO 2 Menambah Fucntion searchItem
+        void searchTeams(Context context, String searchText);
     }
 }
